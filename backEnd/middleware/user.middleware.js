@@ -3,28 +3,27 @@ import jwt from 'jsonwebtoken';
 import dotenv from "dotenv";
 dotenv.config();
 
-console.log("SECRET:",process.env.ASSESS_TOKEN_SECRET ? "Found" : "Missing");
+console.log("SECRET:",process.env.ACCESS_TOKEN_SECRET ? "Found" : "Missing");
 
 const verifyJWT = async(req,res,next) => {
     try{
 
-        const token = req?.cookies?.accessToken;
-
+        const token = req.cookies?.accessToken; 
         
+       
 
         if(!token){
             throw res.status(404).json({message:'token not found'});
         }
 
-         console.log("SECRET:", process.env.ASSESS_TOKEN_SECRET  ? "Found" : "Missing");
+          console.log("SECRET:", process.env.ACCESS_TOKEN_SECRET  ? "Found" : "Missing");
+
+           console.log(`token ==  ${token}`)
+           console.log(`processT ==  ${process.env.ACCESS_TOKEN_SECRET}`)
     
-        const verifyUser = jwt.verify(token,process.env.ASSESS_TOKEN_SECRET);
+        const verifyUser = jwt.verify(token,process.env.ACCESS_TOKEN_SECRET);
 
-        console.log(`acce ==== ${jwt.verify(token,process.env.ASSESS_TOKEN_SECRET)}`)
-
-        console.log(`verifyUser ==== ${verifyUser._id}`)
-
-        const user = await User.findById(verifyUser._id);
+        const user = await User.findById(verifyUser.id);
 
         console.log(`user in verify ${user}`)
 

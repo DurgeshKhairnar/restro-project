@@ -31,16 +31,18 @@ userSchema.methods.isPasswordCorrect = async function(password){
 }
 
 userSchema.methods.genrateAccessToken = function(){
-   return jwt.sign(
+   const accessToken =  jwt.sign(
         {
             id : this._id,
         },
-        process.env.ASSESS_TOKEN_SECRET,
+        process.env.ACCESS_TOKEN_SECRET,
         {
-            expiresIn:process.env.ASSESS_TOKEN_EXPIRY
+            expiresIn:process.env.ACCESS_TOKEN_EXPIRY
         }
 
     )
+    console.log(` jwt accessToken = ${accessToken}`)
+    return accessToken;
 }
 
 userSchema.methods.genrateRefreshToken = function(){

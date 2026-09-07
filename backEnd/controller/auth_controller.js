@@ -95,8 +95,8 @@ const loginUser = async(req,res) => {
 async function genrateAccessTokenRefreshToken(id){
     try{
         const user = await User.findById(id);
-        const refreshToken = await user.genrateAccessToken();
-        const accessToken = await user.genrateRefreshToken();
+        const refreshToken = await user.genrateRefreshToken();
+        const accessToken = await user.genrateAccessToken();
         user.refreshToken = refreshToken;
         user.save({validateBeforeSave:false});
         return {accessToken , refreshToken}
