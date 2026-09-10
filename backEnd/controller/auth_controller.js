@@ -1,4 +1,5 @@
 import User from '../db/authSchema.js';
+import jwt from 'jsonwebtoken';
 
 
 
@@ -106,5 +107,73 @@ async function genrateAccessTokenRefreshToken(id){
     }
 }
 
+const logout = async(req,res) =>{
+    try{
+        const id = req.user.id;
+        if(!id){
+          return res.status(404).json({message:'id not found'})
+        }
 
-export default  { registerUser , loginUser , checkVerifyToken };    
+        await User.findByIdAndUpdate(id,
+            {
+                $set:{refreshToken:null}
+            },{
+                new:true
+            }
+        )
+        
+        return res
+        .clearCookie('accessToken',options)
+        .clearCookie('refreshToken',options)
+        .status(201)
+        .json({
+            logOut:true,
+            message:'Logout successfully'
+        })
+    }catch (e) {
+        console.log(`error in logot ${e.message}`)
+    }
+}
+
+const getRefreshAccessToken = async(req,res) => {
+    try{
+
+        const token = req.cookies.refreshToken || req.body.refreshToken;
+
+        console.log(`req.cookies.refreshToken = ${req.cookies.refreshToken}`)
+
+        if(!token){
+            return res.status(404).json({message:'token not found'})
+        }
+
+        const decodedToken = jwt.verify(token,process.env.REFRESH_TOKEN_SECRET);
+
+        const user = await User.findById(decodedToken.id);
+         console.log(`user == ${user}`)
+    
+        if(!user){
+            return res.status(401).json({message:'invalid refresh Token'})
+        }
+      
+        if(token !== user?.refreshToken){
+            return res.status(404).json({message:'token is expired or used'})
+        }
+
+       const { accessToken , refreshToken } = await genrateAccessTokenRefreshToken(user.id);
+
+       return res.cookie('accessToken',accessToken,options)
+       .cookie('refreshToken',refreshToken,options)
+       .status(201)
+       .json({
+        message:'Access Token is Refresh',
+        accessToken:accessToken,
+        refreshToken:refreshToken
+      })
+
+    }catch (e){
+        console.log(`error in getRefreshAccessToken ${e.message} `)
+    }
+}
+
+
+export default  { registerUser , loginUser , checkVerifyToken, logout , getRefreshAccessToken };    
