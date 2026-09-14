@@ -23,7 +23,7 @@ const verifyJWT = async(req,res,next) => {
 
         const user = await User.findById(verifyUser.id);
 
-        console.log(`user in verify ${user}`)
+        
 
         if(!user){
             throw res.status(401).json({message:'Invalid token user not found'})
@@ -31,7 +31,7 @@ const verifyJWT = async(req,res,next) => {
 
         req.user = user;
 
-        next();
+       return next();
 
     }catch (e){
         console.log(`error in verifyjwt ${e.message}`);

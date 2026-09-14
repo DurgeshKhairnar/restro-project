@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 
 const options = {
     httpOnly:true,
-    secure:true
+    secure:false
 }
 
 const checkVerifyToken = async(req,res) => {
@@ -17,6 +17,8 @@ const registerUser = async(req,res) => {
     try{
 
         const { userName , password } = req.body;
+
+        console.log(userName , password )
 
         if([userName,password].some((i) => i?.trim() === '')){
            throw res.status(401).json({message:'plz fill the required feilds'})
@@ -45,8 +47,7 @@ const registerUser = async(req,res) => {
     });
 
     }catch (e){
-        console.log(`Error in register user ${e.message}`)
-        return res.status(500).json({message:'Internal Server error'})
+        return res.status(500).json({message:`${e.message}`})
     }
 }
 
