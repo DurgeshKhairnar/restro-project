@@ -3,7 +3,6 @@ import Table from '../db/tableSchema.js';
 
 export const createTable = async(req,res) => {
     try{
-        console.log('is called')
         const {tableNo , seats , status} = req.body;
 
          console.log(tableNo , seats , status)
@@ -21,7 +20,6 @@ export const createTable = async(req,res) => {
             status: status
         });
 
-        console.log(` table create ${tableCreated}`)
       return res.status(201).json({success:true,
         message:'Table is created',
         data:tableCreated
@@ -35,3 +33,17 @@ export const createTable = async(req,res) => {
     }
 }
 
+export const getTables = async(req,res) => {
+    try{
+
+        const getTables = await Table.find({userId:req.user._id})
+
+        if(!getTables){
+            return res.status(404).json({success:false,message:'Tables not found'})
+        }
+
+        return res.status(200).json({success:false,data:getTables});
+    }catch (e){
+        return res.status(500).json({success:false,message:`internal server error ${e.message}`})
+    }
+}
