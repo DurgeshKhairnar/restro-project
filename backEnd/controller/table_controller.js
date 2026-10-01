@@ -20,6 +20,8 @@ export const createTable = async(req,res) => {
             status: status
         });
 
+        console.log(tableCreated)
+
       return res.status(201).json({success:true,
         message:'Table is created',
         data:tableCreated
@@ -29,7 +31,7 @@ export const createTable = async(req,res) => {
         if(e.code == 11000){
            return res.status(409).json({success:false,message:'Table alreday exist'})
         }
-       return res.status(500).json({success:false,message:'Internal server error'})
+       return res.status(500).json({success:false,message:`${e.message}`})
     }
 }
 
@@ -42,7 +44,7 @@ export const getTables = async(req,res) => {
             return res.status(404).json({success:false,message:'Tables not found'})
         }
 
-        return res.status(200).json({success:false,data:getTables});
+        return res.status(200).json({success:true,data:getTables});
     }catch (e){
         return res.status(500).json({success:false,message:`internal server error ${e.message}`})
     }

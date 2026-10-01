@@ -8,14 +8,12 @@ const tableSchema = new mongoose.Schema({
         required:true
       },
       tableNo : {
-           type:Number,
+           type:String,
            required:true,
-           unique:true
       },
       seats:{
-           type:Number,
+           type:String,
            required:true,
-           unique:true
       },
       status:{
         type:String,
@@ -26,6 +24,6 @@ const tableSchema = new mongoose.Schema({
     timestamps:true
 })
 
-const Table = mongoose.model('table',tableSchema);
+const Table = mongoose.model('Table',tableSchema);
 
 export default Table;

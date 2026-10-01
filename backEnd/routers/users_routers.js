@@ -7,6 +7,7 @@ import { addProduct ,getProduct , updateProduct , deleteProduct } from '../contr
 import categoryController from '../controller/category_controller.js';
 const { addCategory , getAllCategory , updateCategory , deleteCategory} = categoryController;
 import { createTable, getTables } from '../controller/table_controller.js';
+import { createBooking , getAllBooking} from '../controller/tableBooking_controller.js';
 const router = Router();
 
 router.route('/registerUser').post(registerUser);
@@ -28,5 +29,8 @@ router.route('/deleteProduct/:id').delete(verifyJWT,deleteProduct);
 
 router.route('/createTable').post(verifyJWT,createTable);
 router.route('/getTables').get(verifyJWT,getTables);
+
+router.route('/createBooking').post(verifyJWT,createBooking);
+router.route('/getAllBooking').get(verifyJWT,getAllBooking);
 
 export default router;
