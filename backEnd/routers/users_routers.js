@@ -8,6 +8,7 @@ import categoryController from '../controller/category_controller.js';
 const { addCategory , getAllCategory , updateCategory , deleteCategory} = categoryController;
 import { createTable, getTables } from '../controller/table_controller.js';
 import { createBooking , getAllBooking} from '../controller/tableBooking_controller.js';
+import { createOrders, getOrders } from '../controller/ordersController.js';
 const router = Router();
 
 router.route('/registerUser').post(registerUser);
@@ -32,5 +33,8 @@ router.route('/getTables').get(verifyJWT,getTables);
 
 router.route('/createBooking').post(verifyJWT,createBooking);
 router.route('/getAllBooking').get(verifyJWT,getAllBooking);
+
+router.route('/createOrder').post(verifyJWT,createOrders);
+router.route('/getOrders').get(verifyJWT,getOrders);
 
 export default router;
