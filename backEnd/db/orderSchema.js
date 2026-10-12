@@ -17,6 +17,11 @@ const orderSchema = new mongoose.Schema({
     itemList:{
         required:[true,'items is required'],
         type:[]
+    },
+    status:{
+        type:String,
+        enum:['process','check-In'],
+        default:'process'
     }
 },{
     timestamps : true

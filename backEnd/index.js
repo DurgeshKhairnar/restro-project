@@ -19,9 +19,7 @@ app.use(cookieParser());
 app.use('/api',router);
 
 
-app.get('/',(req,res) => {
-    res.status(200).json({message:'all good'})
-})
+
 
 app.listen(3000,() => {
     console.log('server running in http://localhost:3000')

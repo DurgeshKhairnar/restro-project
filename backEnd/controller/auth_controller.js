@@ -9,7 +9,7 @@ const options = {
 }
 
 const checkVerifyToken = async(req,res) => {
-    res.status(200).json({message:'all is good'})
+    res.status(200).json({success:true,message:'accessToken is valid'})
 }
 
 

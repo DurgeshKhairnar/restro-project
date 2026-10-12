@@ -9,16 +9,14 @@ const verifyJWT = async(req,res,next) => {
     try{
 
         const token = req.cookies?.accessToken; 
-
-        if(!token){
-            throw res.status(404).json({message:'token not found'});
+    
+        if(!token || token === undefined){
+            throw res.status(401).json({success:false,message:'Unauthorized'});
         }
 
         const verifyUser = jwt.verify(token,process.env.ACCESS_TOKEN_SECRET);
 
         const user = await User.findById(verifyUser.id);
-
-        
 
         if(!user){
             throw res.status(401).json({message:'Invalid token user not found'})
@@ -29,7 +27,6 @@ const verifyJWT = async(req,res,next) => {
        return next();
 
     }catch (e){
-        console.log(`error in verifyjwt ${e.message}`);
         return res.status(500).json({message:'internal server error'});
     }
 }
