@@ -19,7 +19,15 @@ app.use(cookieParser());
 app.use('/api',router);
 
 
+app.post("/api/test", (req, res) => {
+  console.log(req.body);
 
+  res.status(200).json({
+    success: true,
+    message: "POST request successful",
+    data: req.body
+  });
+});
 
 app.listen(3000,() => {
     console.log('server running in http://localhost:3000')
