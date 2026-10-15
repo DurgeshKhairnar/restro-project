@@ -57,19 +57,19 @@ const loginUser = async(req,res) => {
         const { userName , password } = req.body;
 
         if([userName,password].some((i) => i?.trim() === '')){
-           throw res.status(401).json({message:'plz fill the required feilds'})
+           return res.status(401).json({message:'plz fill the required feilds'})
         }
 
         const user = await User.findOne({userName})
 
         if(!user){
-             throw res.status(401).json({message:'User Name invalid'})
-        }
+             return res.status(401).json({message:'User Name invalid'})
+        }   
 
         const isPosswordCorrect = await user.isPasswordCorrect(password);
 
         if(!isPosswordCorrect){
-            throw res.status(401).json({message:'userName and password is invalid'})
+            return res.status(401).json({message:'userName and password is invalid'})
         }
 
         const { accessToken , refreshToken } = await genrateAccessTokenRefreshToken(user._id);

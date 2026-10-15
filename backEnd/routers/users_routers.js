@@ -13,7 +13,7 @@ const router = Router();
 
 router.route('/registerUser').post(registerUser);
 router.route('/loginUser').post(loginUser);
-router.route('/check').get(verifyJWT,checkVerifyToken);
+router.route('/check').get(checkVerifyToken);
 router.route('/logout').get(verifyJWT,logout);
 router.route('/refreshToken').post(getRefreshAccessToken);
 

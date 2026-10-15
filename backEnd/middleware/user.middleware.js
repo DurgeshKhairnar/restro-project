@@ -11,7 +11,7 @@ const verifyJWT = async(req,res,next) => {
         const token = req.cookies?.accessToken; 
     
         if(!token || token === undefined){
-            throw res.status(401).json({success:false,message:'Unauthorized'});
+            return res.status(401).json({success:false,message:'Unauthorized'});
         }
 
         const verifyUser = jwt.verify(token,process.env.ACCESS_TOKEN_SECRET);
@@ -19,7 +19,7 @@ const verifyJWT = async(req,res,next) => {
         const user = await User.findById(verifyUser.id);
 
         if(!user){
-            throw res.status(401).json({message:'Invalid token user not found'})
+            return res.status(401).json({message:'Invalid token user not found'})
         }
 
         req.user = user;
