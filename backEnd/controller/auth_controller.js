@@ -56,9 +56,11 @@ const loginUser = async(req,res) => {
 
         const { userName , password } = req.body;
 
-        if([userName,password].some((i) => i?.trim() === '')){
-           return res.status(401).json({message:'plz fill the required feilds'})
-        }
+        if (!userName?.trim() || !password?.trim()) {
+        return res.status(400).json({
+            message: "Please fill all required fields"
+        });
+}
 
         const user = await User.findOne({userName})
 
@@ -75,7 +77,6 @@ const loginUser = async(req,res) => {
         const { accessToken , refreshToken } = await genrateAccessTokenRefreshToken(user._id);
 
         const loginUser = await User.findById(user._id).select('-password');
-
 
         return res.cookie("accessToken",accessToken,options)
         .cookie("refreshToken",refreshToken,options)
