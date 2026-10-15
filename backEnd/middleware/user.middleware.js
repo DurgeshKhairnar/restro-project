@@ -7,7 +7,7 @@ console.log("SECRET:",process.env.ACCESS_TOKEN_SECRET ? "Found" : "Missing");
 
 const verifyJWT = async(req,res,next) => {
     try{
-
+        console.log('middleware is called')
         const token = req.cookies?.accessToken; 
     
         if(!token || token === undefined){
