@@ -76,7 +76,6 @@ const loginUser = async(req,res) => {
 
         const loginUser = await User.findById(user._id).select('-password');
 
-        console.log(`login user = ${loginUser}`)
 
         return res.cookie("accessToken",accessToken,options)
         .cookie("refreshToken",refreshToken,options)
@@ -89,8 +88,10 @@ const loginUser = async(req,res) => {
         })
 
     }catch (e){
-        console.log(`Error in login user ${e.message}`)
-        return res.status(500).json({message:'Internal Server error'})
+         if (res.headersSent) {
+                return;
+         }
+        return res.status(500).json({ success: false,message:'Internal Server error'})
     }
 }
 
