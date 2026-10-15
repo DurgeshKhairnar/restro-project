@@ -13,7 +13,7 @@ const addCategory = async(req,res) => {
 
         const category = await Category.create({
             categoryName,
-            userId:req.user._id
+            userId: req.user._id
         });
 
         return res.status(201).json({
@@ -41,6 +41,7 @@ const getAllCategory = async(req,res) => {
         return res.status(200).json({data:getAllCategores});
 
     }catch (e){
+        console.log(`error in getAllcategory ${e.message}`)
         res.status(404).json({message:`${e.message}`})
     }
 }
