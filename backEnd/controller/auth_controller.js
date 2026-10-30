@@ -47,7 +47,7 @@ const registerUser = async(req,res) => {
     });
 
     }catch (e){
-        return res.status(500).json({message:`${e.message}`})
+        return res.status(500).json({'message':`${e.message}`})
     }
 }
 
@@ -55,7 +55,7 @@ const loginUser = async(req,res) => {
     try{
 
         const { userName , password } = req.body;
-
+        console.log(password)
         if (!userName?.trim() || !password?.trim()) {
         return res.status(400).json({
             message: "Please fill all required fields"
