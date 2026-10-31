@@ -5,6 +5,8 @@ import Signup from './Signup.jsx';
 import { useNavigate } from 'react-router-dom';
 import api from '../../API/axios.js';
 import toast , { Toaster } from 'react-hot-toast';
+import ForgetPassword from './ForgetPassword.jsx';
+
 
 function Login(){
     const navigate = useNavigate();
@@ -15,6 +17,8 @@ function Login(){
     const [isVisible , setVisible ] = useState(false);
 
     const [isLoading , setLoading] = useState('Login')
+
+    const [isForget , setIsForget ] = useState(false);
 
     function handleSubmit(e){
         e.preventDefault();
@@ -111,7 +115,10 @@ function Login(){
                      </div>
                         <div className='flex items-center justify-between w-120'>
                             <h1></h1>
-                            <p className='text-amber-500'>Forget password?</p>
+                            <button 
+                            onClick={() => setIsForget(prev => !prev)}
+                            type='button'
+                            className='text-amber-500 cursor-pointer'>Forget password?</button>
                         </div>
                         <button type='submit'
                          className='w-120 h-13 bg-amber-500 rounded-[5px] flex justify-center items-center cursor-pointer'>
@@ -142,6 +149,7 @@ function Login(){
                  )
                   }
             </div>
+            {(isForget) ? <ForgetPassword onClose={() => setIsForget(prev => !prev)}/> : <></> }
         </div>
      </>
     )
