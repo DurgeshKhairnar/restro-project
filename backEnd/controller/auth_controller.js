@@ -1,5 +1,6 @@
 import User from '../db/authSchema.js';
 import jwt from 'jsonwebtoken';
+import bycrpt from 'bcrypt';
 
 
 
@@ -96,6 +97,38 @@ const loginUser = async(req,res) => {
     }
 }
 
+
+const resetPassword = async(req,res) => {
+    try{
+
+        const { userName , password , confrimPassword } = req.body;
+
+        if(!userName?.trim() || !password?.trim() || !confrimPassword?.trim() ){
+            return res.status(400).json({'message':'all fields are required'});
+        }
+
+        if(password !== confrimPassword){
+            return  res.status(400).json({'message':'password not match'});
+        }
+
+        const user = await User.findOne({userName});
+
+        if(!user){
+            return res.status(404).json({'message':'user not fount'});
+        }
+
+
+        user.password = password;
+        await user.save();
+       
+        return res.status(201).json({'message':'password updated successfully'});
+
+    }catch (e){
+        return res.status(500).json({message:'Internal server error'});
+    }
+}
+
+
 async function genrateAccessTokenRefreshToken(id){
     try{
         const user = await User.findById(id);
@@ -179,4 +212,4 @@ const getRefreshAccessToken = async(req,res) => {
 }
 
 
-export default  { registerUser , loginUser , checkVerifyToken, logout , getRefreshAccessToken };    
+export default  { registerUser , loginUser , checkVerifyToken, logout , resetPassword ,  getRefreshAccessToken };    

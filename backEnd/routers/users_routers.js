@@ -1,7 +1,7 @@
 import {Router} from 'express';
 import userController from '../controller/auth_controller.js';
 import verifyJWT from '../middleware/user.middleware.js';
-const { registerUser , loginUser , checkVerifyToken , logout , getRefreshAccessToken } = userController;
+const { registerUser , loginUser , checkVerifyToken , logout , resetPassword, getRefreshAccessToken } = userController;
 import { addProduct ,getProduct , updateProduct , deleteProduct } from '../controller/product_controller.js';
 
 import categoryController from '../controller/category_controller.js';
@@ -15,6 +15,7 @@ router.route('/registerUser').post(registerUser);
 router.route('/loginUser').post(loginUser);
 router.route('/check').get(checkVerifyToken);
 router.route('/logout').get(verifyJWT,logout);
+router.route('/resetPassword').post(verifyJWT,resetPassword);
 router.route('/refreshToken').post(getRefreshAccessToken);
 
 

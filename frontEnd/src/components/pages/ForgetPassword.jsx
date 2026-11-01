@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import toast , { Toaster } from 'react-hot-toast';
+import api from '../../API/axios.js';
 
 
 function ForgetPassword({onClose}){
@@ -17,14 +18,34 @@ function ForgetPassword({onClose}){
 
     function handleSubmit(e){
         e.preventDefault();
-        console.log(userName);
-        console.log(password)
-        if(password !== confirmPassword){
-                toast.error('check your password')
-        }
+        resetPassword();
     }
+
+   async function resetPassword(){
+      try{
+          setLoading('Loading...')
+          const response = await api.post('/resetPassword',{
+            'userName':userName,
+            'password':password,
+            'confrimPassword':confirmPassword
+          });
+          if(response.status == 201){
+              console.log(response.status)
+              toast.success(response?.data?.message);
+          }
+      }catch (e){
+          toast.error( e.response?.data?.message || 'Something went wrong');
+      }finally {
+             setLoading('Forget Password')
+      }
+   }
+
+
+
     return (
-        <div className='inset-0 fixed bg-black/50 flex items-center justify-center'>
+        <>
+          <Toaster/>
+             <div className='inset-0 fixed bg-black/50 flex items-center justify-center'>
                 <div className='bg-white w-150 flex flex-col items-center justify-center rounded-[10px]'>
                        <div className='w-full min-h-min px-2 py-2'>
                         <div className='flex justify-between'>
@@ -91,6 +112,7 @@ function ForgetPassword({onClose}){
                     </form>
                 </div>
         </div>
+        </>
     )
 }
 
