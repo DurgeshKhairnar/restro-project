@@ -9,6 +9,7 @@ import { getCategory } from '../../redux/slicer/categorySlicer.js';
 import Carts from '../Carts.jsx';
 import { addItem ,incrementItem , decrementItem } from '../../redux/slicer/cartSlicer.js';
 import { useLocation } from 'react-router-dom';
+import empty_items from '../../assets/empty_items.png';
 
 function Dashboard(){
     // dispatch(updateCart(orderList[index]?.itemList));
@@ -56,15 +57,15 @@ function addItems(item){
 
     return(
         <div className='flex  min-h-screen w-full bg-gray-100 p-2 relative justify-between'>
-            <div className='flex flex-col'>
+            <div className='flex flex-col w-full m-1'>
             <Search/>
             <Category />
             <div className='w-full flex flex-wrap  '>
                     {
-                        products?.map((itm,idx) =>{
+                        (products?.length > 0) ? (products?.map((itm,idx) =>{
                            const isCart = carts?.find(item => item._id === itm._id);
                           return (
-                              <div key={idx} className='m-1 w-40 h-55  rounded-[8px] flex-col flex items-start justify-evenly p-2 border-2
+                              <div key={idx} className='m-1 w-40 h-55 flex-col flex items-start justify-evenly p-2 border-2
                               border-gray-300 bg-white shadow-[0_0px_7px_rgba(0,0,0,0.15)] hover:border-amber-500  hover:border-2 relative'>
                                   <img src={itm.productImage} className='object-contain rounded-2xl h-25 mx-auto '/>
                                   <p className='font-bold flex-wrap text-[15px]'>{itm.productName}</p>
@@ -84,7 +85,7 @@ function addItems(item){
                                   >ADD to Dish</button>)}
                               </div>
                           )
-                       })
+                       })) : (emptyListIcon())
                     }
             </div>
             </div>
@@ -96,3 +97,11 @@ function addItems(item){
 
 export default Dashboard;
 
+  function emptyListIcon(){
+        return (
+            <div className='flex p-1 flex-col items-center justify-center bg-gray-100 rounded-full h-70'>
+                     <img src={empty_items} alt='img' className='object-contain h-30 w-30'/>
+                    <p className='font-bold text-gray-500 mt-1'>Empty items List</p>
+            </div>
+        )
+    }
